@@ -14,12 +14,11 @@ public class ModCreativeModTab {
             .create(Registries.CREATIVE_MODE_TAB, Warcraft.MODID);
 
     @SuppressWarnings("null")
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab",
+    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("creative_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.RUBY.get()))
-                    .title(Component.translatable("creativetab.example_tab"))
+                    .title(Component.translatable("creativetab.creative_tab"))
                     .displayItems((pParameters, pOutput) -> {
-                        pOutput.accept(ModItems.EXAMPLE_ITEM.get());
-                        pOutput.accept(ModItems.RUBY.get());
+                        ModItems.ITEMS.getEntries().forEach((item) -> pOutput.accept(item.get()));
                     })
                     .build());
 
