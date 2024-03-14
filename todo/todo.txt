@@ -1,0 +1,5 @@
+Create ruby item
+
+Humanoid "Stormwind Guard", it protects the human civilians and other guards from threats.
+A biome called "Evelyn forest"
+Different house structures with stormwind guards inside, spawning in the Evelyn forest.
