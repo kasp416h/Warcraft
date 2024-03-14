@@ -3,7 +3,10 @@ package net.kasp416h.warcraft;
 import com.mojang.logging.LogUtils;
 
 import net.kasp416h.warcraft.item.ModCreativeModTab;
+import net.kasp416h.warcraft.entity.ModEntities;
+import net.kasp416h.warcraft.entity.client.StormwindGuardRenderer;
 import net.kasp416h.warcraft.item.ModItems;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,6 +33,8 @@ public class Warcraft {
         ModCreativeModTab.register(modEventBus);
 
         ModItems.register(modEventBus);
+
+        ModEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -58,6 +63,7 @@ public class Warcraft {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.STORMWIND_GUARD.get(), StormwindGuardRenderer::new);
         }
     }
 }
