@@ -3,6 +3,7 @@ package net.kasp416h.warcraft;
 import com.mojang.logging.LogUtils;
 
 import net.kasp416h.warcraft.item.ModCreativeModTab;
+import net.kasp416h.warcraft.block.ModBlocks;
 import net.kasp416h.warcraft.entity.ModEntities;
 import net.kasp416h.warcraft.entity.client.StormwindGuardRenderer;
 import net.kasp416h.warcraft.item.ModItems;
@@ -33,6 +34,7 @@ public class Warcraft {
         ModCreativeModTab.register(modEventBus);
 
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
 
         ModEntities.register(modEventBus);
 

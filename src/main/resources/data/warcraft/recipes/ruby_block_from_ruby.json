@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RRR",
+    "RRR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "warcraft:ruby"
+    }
+  },
+  "result": {
+    "item": "warcraft:ruby_block"
+  }
+}

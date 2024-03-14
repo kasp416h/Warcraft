@@ -1,6 +1,10 @@
 {
   "item.warcraft.example_item": "Eksempel genstand",
   "item.warcraft.ruby": "Rubin",
+  "item.warcraft.raw_ruby": "Rå Rubin",
 
-  "creativetab.example_tab": "Warcraft"
+  "block.warcraft.ruby_block": "Blok af Rubin",
+  "block.warcraft.raw_ruby_block": "Blok af Rå Rubin",
+
+  "creativetab.creative_tab": "Warcraft"
 }

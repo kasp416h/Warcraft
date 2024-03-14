@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "warcraft:block/ruby_block"
+    }
+  }
+}

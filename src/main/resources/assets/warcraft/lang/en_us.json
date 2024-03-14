@@ -1,6 +1,10 @@
 {
   "item.warcraft.example_item": "Example Item",
   "item.warcraft.ruby": "Ruby",
+  "item.warcraft.raw_ruby": "Raw Ruby",
 
-  "creativetab.example_tab": "Warcraft"
+  "block.warcraft.ruby_block": "Block of Ruby",
+  "block.warcraft.raw_ruby_block": "Block of Raw Ruby",
+
+  "creativetab.creative_tab": "Warcraft"
 }
