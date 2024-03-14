@@ -2,6 +2,7 @@ package net.kasp416h.warcraft;
 
 import com.mojang.logging.LogUtils;
 
+import net.kasp416h.warcraft.item.ModCreativeModTab;
 import net.kasp416h.warcraft.item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,6 +26,8 @@ public class Warcraft {
 
     public Warcraft() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        
+        ModCreativeModTab.register(modEventBus);
 
         ModItems.register(modEventBus);
 

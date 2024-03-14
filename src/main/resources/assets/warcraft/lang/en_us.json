@@ -1,4 +1,6 @@
 {
   "item.warcraft.example_item": "Example Item",
-  "item.warcraft.ruby": "Ruby"
+  "item.warcraft.ruby": "Ruby",
+
+  "creativetab.example_tab": "Example Tab"
 }
