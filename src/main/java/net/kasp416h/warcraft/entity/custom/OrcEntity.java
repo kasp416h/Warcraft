@@ -10,11 +10,16 @@ import net.kasp416h.warcraft.entity.custom.StormwindGuardEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.Level;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 public class OrcEntity extends Mob {
     public OrcEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
@@ -41,6 +46,22 @@ public class OrcEntity extends Mob {
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
                 .add(Attributes.ARMOR_TOUGHNESS, 0.1f)
                 .add(Attributes.ATTACK_DAMAGE, 5.0D);
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
+        super.dropCustomDeathLoot(source, looting, recentlyHit);
+        Random random = new Random();
+
+        if (random.nextFloat() < 0.25f) {
+            ItemStack droppedItem = new ItemStack(Items.IRON_AXE);
+
+            int maxDamage = droppedItem.getMaxDamage();
+            int damageValue = 1 + random.nextInt(maxDamage / 2);
+            droppedItem.setDamageValue(damageValue);
+
+            spawnAtLocation(droppedItem);
+        }
     }
 
     @Nullable
