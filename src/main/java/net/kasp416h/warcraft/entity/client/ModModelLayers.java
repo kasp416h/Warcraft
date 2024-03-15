@@ -7,4 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 public class ModModelLayers {
     public static final ModelLayerLocation STORMWIND_GUARD_LAYER = new ModelLayerLocation(
             new ResourceLocation(Warcraft.MODID, "stormwind_guard_layer"), "main");
+
+    public static final ModelLayerLocation ORC_LAYER = new ModelLayerLocation(
+            new ResourceLocation(Warcraft.MODID, "orc_layer"), "main");
 }
