@@ -12,6 +12,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.util.Mth;
 
 public class StormwindGuardModel<T extends Entity> extends EntityModel<T> {
 	private final ModelPart Head;
@@ -76,7 +77,39 @@ public class StormwindGuardModel<T extends Entity> extends EntityModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch) {
+		this.Head.yRot = netHeadYaw * ((float) Math.PI / 180F);
+		this.Head.xRot = headPitch * ((float) Math.PI / 180F);
 
+		this.RightArm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F;
+		this.LeftArm.xRot = Mth.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F;
+		this.RightArm.zRot = 0.0F;
+		this.LeftArm.zRot = 0.0F;
+
+		this.RightLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.LeftLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+		this.RightLeg.yRot = 0.0F;
+		this.LeftLeg.yRot = 0.0F;
+
+		if (entity instanceof StormwindGuardEntity) {
+			StormwindGuardEntity guard = (StormwindGuardEntity) entity;
+			boolean isBlocking = guard.isBlocking();
+
+			if (isBlocking) {
+				this.RightArm.xRot = -0.6F;
+				this.RightArm.yRot = 0.1F;
+			} else {
+				this.RightArm.xRot = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount
+						* 0.5F;
+				this.RightArm.yRot = 0.0F;
+			}
+		}
+
+		if (entity.isIdle()) {
+			this.RightArm.zRot += Mth.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+			this.LeftArm.zRot -= Mth.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+			this.RightArm.xRot += Mth.sin(ageInTicks * 0.067F) * 0.05F;
+			this.LeftArm.xRot -= Mth.sin(ageInTicks * 0.067F) * 0.05F;
+		}
 	}
 
 	@Override
