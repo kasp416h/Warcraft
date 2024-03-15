@@ -4,10 +4,12 @@ import com.google.common.base.Supplier;
 
 import net.kasp416h.warcraft.Warcraft;
 import net.kasp416h.warcraft.item.ModItems;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,6 +27,11 @@ public class ModBlocks {
   @SuppressWarnings("null")
   public static final RegistryObject<Block> RAW_RUBY_BLOCK = registerBlock("raw_ruby_block",
       () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK).sound(SoundType.AMETHYST)));
+
+  @SuppressWarnings("null")
+  public static final RegistryObject<Block> RUBY_ORE = registerBlock("ruby_ore",
+      () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.AMETHYST).strength(2f)
+          .requiresCorrectToolForDrops(), UniformInt.of(3, 6)));
 
   private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
     RegistryObject<T> toReturn = BLOCKS.register(name, block);
