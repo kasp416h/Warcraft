@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 public class StormwindGuardRenderer
         extends MobRenderer<StormwindGuardEntity, StormwindGuardModel<StormwindGuardEntity>> {
     public StormwindGuardRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new StormwindGuardModel<>(pContext.bakeLayer(ModModelLayers.STORMWIND_GUARD_LAYER)), 2f);
+        super(pContext, new StormwindGuardModel<>(pContext.bakeLayer(ModModelLayers.STORMWIND_GUARD_LAYER)), 0.5f);
     }
 
     @Override
