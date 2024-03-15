@@ -19,11 +19,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 public class StormwindGuardEntity extends Mob {
     public StormwindGuardEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.equipWithIronAxe();
-    }
-
-    private void equipWithIronAxe() {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
     }
 
     @Override

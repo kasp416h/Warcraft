@@ -19,6 +19,11 @@ import org.jetbrains.annotations.Nullable;
 public class OrcEntity extends Mob {
     public OrcEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.equipWithIronAxe();
+    }
+
+    private void equipWithIronAxe() {
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
     }
 
     @Override
