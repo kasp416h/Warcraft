@@ -2,32 +2,43 @@ package net.kasp416h.warcraft.entity.custom;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.player.Player;
+import net.kasp416h.warcraft.entity.ai.goals.UseShieldIfTargetHasBowGoal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import org.jetbrains.annotations.Nullable;
-import net.kasp416h.warcraft.entity.ai.goals.UseShieldIfTargetHasBowGoal;
+import net.minecraft.world.damagesource.DamageSource;
+
 import java.util.EnumSet;
 import java.util.List;
 
 public class StormwindGuardEntity extends Mob {
+    private static final EntityDataAccessor<Boolean> BLOCKING = SynchedEntityData.defineId(StormwindGuardEntity.class,
+            EntityDataSerializers.BOOLEAN);
+
     private long lastAlertTime = 0;
     private static final long ALERT_COOLDOWN = 10000;
 
     public StormwindGuardEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.equipWithIronSwordAndShield();
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(BLOCKING, false);
     }
 
     private void equipWithIronSwordAndShield() {
@@ -37,11 +48,11 @@ public class StormwindGuardEntity extends Mob {
 
     @Override
     protected void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new UseShieldIfTargetHasBowGoal(this));
-        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 3f));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 8.0f));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new AlertOthersGoal(this));
     }
 
@@ -49,8 +60,13 @@ public class StormwindGuardEntity extends Mob {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
-                .add(Attributes.ARMOR_TOUGHNESS, 0.1f)
-                .add(Attributes.ATTACK_DAMAGE, 5.0D);
+                .add(Attributes.ARMOR, 5.0D)
+                .add(Attributes.ARMOR_TOUGHNESS, 2.0D)
+                .add(Attributes.ATTACK_DAMAGE, 3.0D);
+    }
+
+    public boolean isIdle() {
+        return this.getTarget() == null;
     }
 
     @Nullable
@@ -71,14 +87,12 @@ public class StormwindGuardEntity extends Mob {
         return SoundEvents.VINDICATOR_DEATH;
     }
 
-    private boolean isBlocking = false;
-
-    public boolean isBlocking() {
-        return isBlocking;
+    public void setBlocking(boolean blocking) {
+        this.entityData.set(BLOCKING, blocking);
     }
 
-    public void setBlocking(boolean blocking) {
-        this.isBlocking = blocking;
+    public boolean isBlocking() {
+        return this.entityData.get(BLOCKING);
     }
 
     @Override
@@ -86,9 +100,12 @@ public class StormwindGuardEntity extends Mob {
         if (super.hurt(source, amount)) {
             LivingEntity attacker = source.getEntity() instanceof LivingEntity ? (LivingEntity) source.getEntity()
                     : null;
-            if (attacker != null && System.currentTimeMillis() - lastAlertTime > ALERT_COOLDOWN) {
-                this.alertOthers(attacker);
-                lastAlertTime = System.currentTimeMillis();
+            if (attacker != null) {
+                this.setTarget(attacker);
+                if (System.currentTimeMillis() - lastAlertTime > ALERT_COOLDOWN) {
+                    this.alertOthers(attacker);
+                    lastAlertTime = System.currentTimeMillis();
+                }
             }
             return true;
         }
@@ -97,7 +114,7 @@ public class StormwindGuardEntity extends Mob {
 
     private void alertOthers(LivingEntity attacker) {
         double radius = 10.0D;
-        List<StormwindGuardEntity> nearbyGuards = this.level.getEntitiesOfClass(StormwindGuardEntity.class,
+        List<StormwindGuardEntity> nearbyGuards = this.level().getEntitiesOfClass(StormwindGuardEntity.class,
                 this.getBoundingBox().inflate(radius), guard -> guard != this);
 
         nearbyGuards.stream().limit(5).forEach(guard -> guard.setTarget(attacker));
