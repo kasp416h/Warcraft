@@ -2,9 +2,8 @@ package net.kasp416h.warcraft.entity.ai.goals;
 
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
-import com.yourmodid.entity.custom.StormwindGuardEntity;
+import net.kasp416h.warcraft.entity.custom.StormwindGuardEntity;
 import java.util.EnumSet;
 
 public class UseShieldIfTargetHasBowGoal extends Goal {
@@ -18,7 +17,7 @@ public class UseShieldIfTargetHasBowGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = guard.getTarget();
-        boolean canBlock = target != null && target instanceof Player && target.isHolding(Items.BOW)
+        boolean canBlock = target != null && target.isHolding(Items.BOW)
                 && guard.distanceToSqr(target) < 25;
 
         guard.setBlocking(canBlock);
